@@ -14,11 +14,13 @@ print(__doc__)
 
 # Standard scientific Python imports
 import matplotlib.pyplot as plt
-
+import numpy as np
 # Import datasets, classifiers and performance metrics
 from sklearn import datasets, svm, metrics
 from sklearn.model_selection import train_test_split
-
+import warnings
+from sklearn.exceptions import DataConversionWarning
+warnings.filterwarnings(action='ignore', category=DataConversionWarning)
 ###############################################################################
 # Digits dataset
 # --------------
@@ -33,7 +35,12 @@ from sklearn.model_selection import train_test_split
 # Note: if we were working from image files (e.g., 'png' files), we would load
 # them using :func:`matplotlib.pyplot.imread`.
 
+
+
+
+
 digits = datasets.load_digits()
+print(digits.images.shape)
 
 _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
 for ax, image, label in zip(axes, digits.images, digits.target):
@@ -57,46 +64,107 @@ for ax, image, label in zip(axes, digits.images, digits.target):
 # in the test subset.
 
 # flatten the images
-n_samples = len(digits.images)
-data = digits.images.reshape((n_samples, -1))
 
-# Create a classifier: a support vector classifier
-clf = svm.SVC(gamma=0.001)
 
-# Split data into 50% train and 50% test subsets
-X_train, X_test, y_train, y_test = train_test_split(
-    data, digits.target, test_size=0.5, shuffle=False)
+def fun(digits, shape, split):
+    n_samples = len(digits.images)
+    X = digits.images
+    Y = digits.target
+    #print(X.shape, Y.shape)
+    #print(type(digits.images))
+    data1 = np.resize(digits.images, (n_samples,shape))
+    #data1 = data1.reshape(n_samples, -1)
 
-# Learn the digits on the train subset
-clf.fit(X_train, y_train)
+    #print("data1 =", data1.shape)
 
-# Predict the value of the digit on the test subset
-predicted = clf.predict(X_test)
+    # Create a classifier: a support vector classifier
+    clf = svm.SVC(gamma=0.00001)
 
-###############################################################################
-# Below we visualize the first 4 test samples and show their predicted
-# digit value in the title.
 
-_, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
-for ax, image, prediction in zip(axes, X_test, predicted):
-    ax.set_axis_off()
-    image = image.reshape(8, 8)
-    ax.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
-    ax.set_title(f'Prediction: {prediction}')
+    X_train, X_test, y_train, y_test = train_test_split(
+        data1, digits.target, test_size=split, shuffle=False)
 
-###############################################################################
-# :func:`~sklearn.metrics.classification_report` builds a text report showing
-# the main classification metrics.
+    # Learn the digits on the train subset
+    #print(X_train.shape, y_train.shape)
+    y_train = y_train.reshape(-1,1)
+    #print(X_train.shape, y_train.shape)
+    clf.fit(X_train, y_train)
 
-print(f"Classification report for classifier {clf}:\n"
-      f"{metrics.classification_report(y_test, predicted)}\n")
+    # Predict the value of the digit on the test subset
+    predicted = clf.predict(X_test)
 
-###############################################################################
-# We can also plot a :ref:`confusion matrix <confusion_matrix>` of the
-# true digit values and the predicted digit values.
+    ###############################################################################
+    # Below we visualize the first 4 test samples and show their predicted
+    # digit value in the title.
+    '''
+    _, axes = plt.subplots(nrows=1, ncols=4, figsize=(10, 3))
+    for ax, image, prediction in zip(axes, X_test, predicted):
+        ax.set_axis_off()
+        image = image.reshape(16, 16)
+        ax.imshow(image, cmap=plt.cm.gray_r, interpolation='nearest')
+        ax.set_title(f'Prediction: {prediction}')
+    '''
+    accuracy = metrics.accuracy_score(y_test, predicted)
+    ###############################################################################
+    # :func:`~sklearn.metrics.classification_report` builds a text report showing
+    # the main classification metrics.
 
-disp = metrics.plot_confusion_matrix(clf, X_test, y_test)
-disp.figure_.suptitle("Confusion Matrix")
-print(f"Confusion matrix:\n{disp.confusion_matrix}")
+    #print(f"Classification report for classifier {clf}:\n"f"{metrics.classification_report(y_test, predicted)}\n")
 
-plt.show()
+    return accuracy
+
+shape = 256
+split = 0.75
+#print("Accuracy ", fun(digits,shape , split))
+print("16*16   ","75:25   ", fun(digits,shape , split))
+
+shape = 256
+split = 0.5
+#print("Accuracy ", fun(digits,shape , split))
+print("16*16   ","50:50   ", fun(digits,shape , split))
+
+shape = 256
+split = 0.25
+#print("Accuracy ", fun(digits,shape , split))
+print("16*16   ","25:75   ", fun(digits,shape , split))
+
+
+shape = 1024    
+split = 0.75
+print("32*32   ","75:25   ", fun(digits,shape , split))
+#print("Accuracy ", fun(digits,shape , split))
+
+shape = 1024    
+split = 0.5
+#print("Accuracy ", fun(digits,shape , split))
+print("32*32    ","50:50   ", fun(digits,shape , split))
+
+shape = 1024
+split = 0.25
+#print("Accuracy ", fun(digits,shape , split))
+print("32*32    ","25:75   ", fun(digits,shape , split))
+
+shape = 4096    
+split = 0.75
+#print("Accuracy ", fun(digits,shape , split))
+print("64*64   ","75:25   ", fun(digits,shape , split))
+
+shape = 4096    
+split = 0.5
+#print("Accuracy ", fun(digits,shape , split))
+print("64*64   ","50:50   ", fun(digits,shape , split))
+
+shape = 4096
+split = 0.25
+#print("Accuracy ", fun(digits,shape , split))
+print("64*64   ","25:75   ", fun(digits,shape , split))
+
+'''
+shape= [256, 1024, 144]
+split = [0.25, 0.50, 0.75]
+
+for i in shape:
+    for j in split:
+        print(shape ,split , fun(digits,shape , split))
+
+'''
