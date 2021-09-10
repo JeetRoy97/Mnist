@@ -10,7 +10,8 @@ We have shown the confusion matrix below.
 
 The graph represents the change in accuracy with change in gamma values.
 
-![Figure_1](https://user-images.githubusercontent.com/59523992/132811236-9c503fba-5fff-4cfa-8a43-9b068b33739c.png)
+![Figure_1](https://user-images.githubusercontent.com/59523992/132823682-0934d17e-bc6c-4a79-9b56-784b6fcba8c1.png)
+
 
 
 The change in gamma with validation accuracy is shown below:
