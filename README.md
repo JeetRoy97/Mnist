@@ -10,7 +10,9 @@ The graph represents the change in accuracy with change in gamma values.
 
 ![Figure_1](https://user-images.githubusercontent.com/59523992/132811236-9c503fba-5fff-4cfa-8a43-9b068b33739c.png)
 
+
 The change in gamma with validation accuracy is shown below:
+
 ![Screenshot from 2021-09-10 13-48-29](https://user-images.githubusercontent.com/59523992/132823321-36686411-51c0-4dc3-8b3a-6ed0c363a3d0.png)
 
 
