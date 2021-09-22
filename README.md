@@ -18,4 +18,6 @@ The change in gamma with validation accuracy is shown below:
 
 ![Screenshot from 2021-09-10 13-48-29](https://user-images.githubusercontent.com/59523992/132823321-36686411-51c0-4dc3-8b3a-6ed0c363a3d0.png)
 
+The models are saved in memory and then pick the best model according to the validation accuracy.
 
+![Screenshot from 2021-09-22 19-40-36](https://user-images.githubusercontent.com/59523992/134361306-68576765-8b33-46bb-8d9b-9cc46770d0eb.png)
