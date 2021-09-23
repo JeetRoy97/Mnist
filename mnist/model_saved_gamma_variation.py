@@ -9,21 +9,10 @@ import shutil
 from joblib import dump, load
 import numpy as np
 import math
+from utils import create_splits, preprocess, report
+
 
 digits = datasets.load_digits()
-
-def create_splits(data, split):
-    X_train, X_test, y_train, y_test = train_test_split(data, digits.target, test_size = split, shuffle=False)
-    X_train, X_val, y_train, y_val = train_test_split(data, digits.target, test_size = split, shuffle=False)
-    return X_train, X_test, y_train, y_test, X_val, y_val
-
-def preprocess(X, shape):
-    resized_images = []
-    for d in X:
-        resized_images.append(rescale(d, shape, anti_aliasing=False))
-    resized_images = np.asarray(resized_images)
-    resized_images = resized_images.reshape((len(X), -1))
-    return resized_images
 
 def validate(X_val, y_val, i, s, h):
     predicted = clf.predict(X_val)
@@ -39,13 +28,10 @@ def validate(X_val, y_val, i, s, h):
         }
     return candidate
 
-def report(clf, y_test, predicted):
-    print(f"Classification report for classifier {clf}:\n"
-      f"{metrics.classification_report(y_test, predicted)}\n")
 
 def test(X,best_model_folder, shape,split):
     data = preprocess(X, shape)
-    X_train, X_test, y_train, y_test, X_val, y_val = create_splits(data, split)
+    X_train, X_test, y_train, y_test, X_val, y_val = create_splits(data, Y, split)
     clf = load(os.path.join(best_model_folder,"model.joblib"))
     predicted = clf.predict(X_test)
     report(clf, y_test, predicted) # classification report function
@@ -68,7 +54,7 @@ for h in shape:
         for i in parames:
             data = preprocess(X, h)
             clf = svm.SVC(gamma=i)
-            X_train, X_test, y_train, y_test, X_val, y_val = create_splits(data, s) # data split function
+            X_train, X_test, y_train, y_test, X_val, y_val = create_splits(data, Y,s) # data split function
             clf.fit(X_train, y_train) 
             model_candidate.append(validate(X_val, y_val,i, s, int(math.sqrt(data.shape[1])))) # validation function
             mydir = "/home/jeet/MLOPs/Mnist/mnist/models/" 
