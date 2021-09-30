@@ -53,19 +53,3 @@ split = [0.25, 0.5, 0.75]
 for i in shape:
     for j in split:
         fun(digits,i , j)
-'''shape = 0.25
-split = 0.25
-#print("Accuracy ", fun(digits,shape , split))
-print("16*16   ","75:25   ", )
-
-shape = 0.5
-split = 0.5
-#print("Accuracy ", fun(digits,shape , split))
-print("16*16   ","50:50   ", fun(digits,shape , split))
-
-shape = 0.75
-split = 0.25
-#print("Accuracy ", fun(digits,shape , split))
-print("16*16   ","25:75   ", fun(digits,shape , split))
-
-'''
