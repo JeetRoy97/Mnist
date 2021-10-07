@@ -29,8 +29,12 @@ def test_model_writing():
 def test_small_data_overfit_checking():
 
 	candidate = utils.classification_model(data, X_train, y_train, X_val, y_val, gamma, split, shape,  mydir)
+<<<<<<< HEAD
 	#print(candidate)
 	assert candidate['acc_valid']	> 0.80
 	assert candidate['f1_valid']	> 0.75 #threshold for overfitting
 
 #test_small_data_overfit_checking()
+=======
+	assert candidate['acc_valid']	> 0.8 #threshold to check over-fitting
+>>>>>>> 0b1fdff670b198a7bd109133f761f38af4dd8c02
