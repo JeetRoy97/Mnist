@@ -38,4 +38,4 @@ def test_small_data_overfit_checking():
 	data = utils.preprocess(X, shape)
 	X_train, X_test, y_train, y_test, X_val, y_val = utils.create_splits(data[:100], Y[:100],split)
 	candidate = utils.classification_model(data, X_train, y_train, X_val, y_val, gamma, split, shape,  mydir)
-	assert candidate['acc_valid']	> 0.11
+	assert candidate['acc_valid']	> 0.8 #threshold to check over-fitting
