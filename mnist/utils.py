@@ -48,3 +48,12 @@ def classification_model(data, X_train, y_train, X_val, y_val, gamma, split, sha
     os.makedirs(output)
     dump(clf, os.path.join(output,"model.joblib"))
     return model_candidate
+
+def run_classification_experiment(data, X_train, y_train, X_val, y_val, gamma, split, shape,  model_path, expected_model_file):
+    clf = svm.SVC(gamma=gamma)
+    clf.fit(X_train, y_train) 
+    model_candidate = validate(data, X_val, y_val,gamma, split, int(math.sqrt(data.shape[1])),clf) # validation function
+    #print(model_candidate) 
+    output = model_path+str(expected_model_file)
+    os.makedirs(output)
+    dump(clf, os.path.join(output,"model.joblib"))
