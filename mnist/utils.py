@@ -8,9 +8,13 @@ from joblib import dump, load
 
 
 def create_splits(data, Y, split):
-    X_train, X_test, y_train, y_test = train_test_split(data, Y, test_size = split, shuffle=False)
-    X_train, X_val, y_train, y_val = train_test_split(data, Y, test_size = split, shuffle=False)
+    train_ratio = 0.70
+    validation_ratio = 0.10
+    test_ratio = 0.20
+    X_train, X_test, y_train, y_test = train_test_split(data, Y, test_size= round((1 - train_ratio),2), shuffle=False)
+    X_val, X_test, y_val, y_test = train_test_split(X_test, y_test, test_size = test_ratio/(test_ratio + validation_ratio), shuffle=False)
     return X_train, X_test, y_train, y_test, X_val, y_val
+
 
 def preprocess(X, shape):
     resized_images = []
@@ -27,11 +31,13 @@ def report(clf, y_test, predicted):
 def validate(data, X_val, y_val, i, s, h,clf):
     predicted = clf.predict(X_val)
     accuracy = metrics.accuracy_score(y_val, predicted)
+    f1 = metrics.f1_score(y_val, predicted, average = 'macro' )
     if accuracy < 0.11:
         pass
         print("Skipping for rescale {}x{} testsize {} gamma {}". format(int(math.sqrt(data.shape[1])), int(math.sqrt(data.shape[1])), s, i))
     candidate = {
         'acc_valid' : accuracy,
+        'f1_valid' : f1,
         'gamma' : i,
         'split' : s,
         'shape' : h
