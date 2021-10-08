@@ -1,13 +1,10 @@
+import os
 import math
 from sklearn import datasets, svm, metrics
 import sys, os
 import shutil
 sys.path.insert(1, '/home/jeet/MLOPs/Mnist/mnist')
 import utils
-
-def test_equal():
-	assert 1 == 1
-
 digits = datasets.load_digits()
 X,Y = digits.images, digits.target
 
