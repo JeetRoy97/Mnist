@@ -1,6 +1,4 @@
 # Mnist
-This is a simple implementation of digit classification on MNIST dataset.
-Pytests checked succesfully for both the tests.
+This repository shows the difference in SVM and Decision Tree accuracy with their mean and standard deviation.
 
-
-![Screenshot from 2021-10-07 17-29-15](https://user-images.githubusercontent.com/59523992/136379989-2951fa51-e290-4263-8aaf-791e3ce4dd09.png)
+![Screenshot from 2021-10-28 06-24-39](https://user-images.githubusercontent.com/59523992/139168507-6fc09b6c-e819-4c0d-983a-1d806b7ed4c7.png)
