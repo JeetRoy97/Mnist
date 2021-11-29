@@ -10,7 +10,7 @@ app = Flask(__name__)
 def hello_world():
     return "<p>Hello, World!</p>"
 
-best_model_path_svm = "/home/jeet/MLOPs/Mnist/mnist/models_train/1.0/split_1.0_gamma0.001/model.joblib"
+best_model_path_svm = "/home/jeet/MLOPs/Mnist/mnist/models/s_8_tt_0.25_val_0.25_gamma0.01/model.joblib"
 best_model_path_decision = "/home/jeet/MLOPs/Mnist/mnist/models_dt/s_8_tt_0.25_val_0.25_depth50/model.joblib"
 @app.route("/svm_predict", methods = ['POST'])
 def predict():
@@ -33,3 +33,8 @@ def decision_predict():
     image = np.array(image).reshape(1,-1)
     predicted = clf.predict(image)
     return str(predicted[0])
+
+def main():
+    app.run()
+if __name__=="__main__":
+    main()
